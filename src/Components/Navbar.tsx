@@ -9,11 +9,12 @@ import NotifyIcon from "../assets/notifications.svg";
 import { useState } from "react";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 const Navbar = () => {
     const[dropdown,setDropdown]=useState<boolean>(false)
     const[settings,setSettings]=useState<boolean>(false)
     const[add,setAdd]=useState<boolean>(false)
+    const navigate=useNavigate()
     const handleDropdown=()=>{
         setDropdown(prevState=>!prevState)
     }
@@ -52,8 +53,8 @@ const Navbar = () => {
                             {/* <DropDown/> */}
 <div className="absolute left-0 top-[-12px] w-[200px]  bg-white  h-[100px] rounded shadow-md  ">
     <ul className=" ">
-        <li onClick={handleSettings} className="p-2 hover:bg-[#f6efee]"><SettingsOutlinedIcon/> Settings</li> 
-        <li className="p-2 hover:bg-[#f6efee]"><LogoutOutlinedIcon/>  Logout</li>
+        <li onClick={handleSettings} className="p-2 cursor-pointer hover:bg-[#f6efee]"><SettingsOutlinedIcon/> Settings</li> 
+        <li onClick={()=>navigate('/')} className="p-2 cursor-pointer hover:bg-[#f6efee]"><LogoutOutlinedIcon/>  Logout</li>
 </ul></div>                            </div>
                     )
                 }

@@ -1,8 +1,37 @@
 import bgPic from '../assets/bgTwo.png'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import axios from 'axios'
+interface FormData{
+    email:string,
+    password:string
+
+}
+
 export default function Login(){
-const handleSubmit=(e:React.FormEvent)=>{
+    const [formData,setFormData]=useState<FormData>({
+        email:'',
+        password:''
+    })
+    const [information,setInformation]=useState<string>('')
+const handleSubmit=async (e:React.FormEvent)=>{
 e.preventDefault()
+try {
+const result=   await axios.post('http://localhost:5000/api/signup',formData)
+const message=result.data
+console.log(message)
+setInformation(message.message)
+if(message.success){
+    console.log('going...')
+}
+} catch (error) {
+    // console.log(error.message)
+    console.log(error);
+    // if (error.response && error.response.data) {
+    //    const errorMessage: string = error.response.data.message;
+    //    console.log(errorMessage);
+    // }
+}
 }
     return (
         <div className='flex  flex-col  md:flex-row-reverse gap-20 justify-center items-center  '>
@@ -20,7 +49,8 @@ e.preventDefault()
     type="text"
     id="username"
     name="username"
-    
+    value={formData.email}
+    onChange={(e)=>setFormData({...formData,email:e.target.value})}
     className="w-full p-2 mt-2 outline-none border-[1px]  rounded border-gray-300  mb-4"
   />
 
@@ -31,7 +61,8 @@ e.preventDefault()
     type="password"
     id="password"
     name="password"
-    
+ value={formData.password}
+ onChange={(e)=>setFormData({...formData,password:e.target.value})}   
     className="w-full outline-none mt-2 border-[1px] rounded p-2 border-gray-300  "
   />
 
@@ -42,7 +73,10 @@ e.preventDefault()
     >
       Sign up with Email
     </button>
+    <h1 className='text-center'>
+    {information}
 
+    </h1>
     {/* <button
       type="button"
       className="border-gray-200 text-[#242526] rounded border-[1px] p-2  hover:bg-gray-100 transition duration-300"
